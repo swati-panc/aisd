@@ -1,0 +1,97 @@
+Cell 1 — Install libraries
+!pip install flask joblib pyngrok
+
+Cell 2 — Train model
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+import joblib
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,
+    random_state=42
+)
+
+model = RandomForestClassifier(random_state=42)
+
+model.fit(X_train, y_train)
+
+accuracy = model.score(X_test, y_test)
+
+print("Model Accuracy:", accuracy)
+
+Cell 3 — Save model
+joblib.dump(model, "iris_model.pkl")
+
+print("Model saved successfully!")
+
+Cell 4 — Create Flask application
+%%writefile app.py
+
+from flask import Flask, request, jsonify
+import joblib
+
+app = Flask(__name__)
+
+model = joblib.load("iris_model.pkl")
+
+@app.route("/")
+def home():
+    return "Iris ML Model is Running!"
+
+@app.route("/predict", methods=["POST"])
+def predict():
+
+    data = request.get_json()
+
+    features = [[
+        data["sepal_length"],
+        data["sepal_width"],
+        data["petal_length"],
+        data["petal_width"]
+    ]]
+
+    prediction = model.predict(features)
+
+    class_names = ["Setosa", "Versicolor", "Virginica"]
+
+    result = class_names[int(prediction[0])]
+
+    return jsonify({
+        "prediction": result
+    })
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
+Cell 5 — Start Flask
+!nohup python app.py > flask.log 2>&1 &
+
+Cell 6 — Create tunnel
+from pyngrok import ngrok
+
+public_url = ngrok.connect(5000)
+
+print("Application URL:", public_url)
+
+Cell 7 — Test prediction
+import requests
+
+url = str(public_url) + "/predict"
+
+data = {
+    "sepal_length": 5.1,
+    "sepal_width": 3.5,
+    "petal_length": 1.4,
+    "petal_width": 0.2
+}
+
+response = requests.post(url, json=data)
+
+print(response.json())

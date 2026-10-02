@@ -1,0 +1,36 @@
+#Build etl pipeline
+
+import pandas as pd
+import sqlite3
+from google.colab import files
+
+uploaded=files.upload()
+
+#load data
+df=pd.read_excel('students.xlsx')
+print("original dataset")
+print(df)
+
+#transform data
+print("Null Values")
+df.isnull().sum(0)
+
+#handling missing values
+df['Marks']=df['Marks'].fillna(df['Marks'].mean())
+print("\nData Frame after handling null values")
+print(df)
+
+#Handling Duplicates
+df=df.drop_duplicates()
+print(df)
+
+#load
+conn=sqlite3.connect('students.db')
+df.to_sql('students',conn,if_exists='replace',index=False)
+print("Data connected succesfully")
+
+result=pd.read_sql_query("SELECT*FROM students",conn)
+print(result)
+
+conn.close()
+print("database connection closed")

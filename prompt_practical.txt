@@ -1,0 +1,631 @@
+#data cleaning using ai
+Prompt
+@Data Analytics
+Analyze the uploaded CSV dataset and clean the data.
+Tasks:
+- Remove duplicate rows.
+- Fill missing values.
+- Fix invalid dates and numeric values.
+- Convert columns to correct data types.
+- Standardize category names and remove extra spaces.
+- Keep the dataset structure unchanged.
+- Save the cleaned file as **cleaned retail store sales.csv**.
+Generate a brief report including:
+- Rows before and after cleaning
+- Missing values handled
+- Duplicate rows removed
+- Invalid values fixed
+- Data types corrected
+- Summary of all changes
+- Short conclusion
+Finally, save the cleaned dataset as cleaned_retail_store_sales.csv
+
+
+
+#analyze dataset using ai 
+Prompt:- @Data
+Analytics
+Act as a professional data analyst.
+Analyze the uploaded Retail Store Sales dataset. Do not clean or modify
+the data.
+Provide the following information:
+1. Number of rows and columns.
+2. List all column names.
+3. Identify the data type of each column.
+4. Count the missing values in each column.
+5. Check for duplicate rows and report the total number found.
+6. Identify invalid values, such as negative numbers, impossible
+dates, or incorrect formats.
+7. Identify suspicious or inconsistent categories (e.g., different
+spellings, extra spaces, inconsistent capitalization).
+8. Highlight any potential data quality issues that should be addressed
+before analysis.
+
+#data cleaning using ai
+Prompt
+@Data Analytics
+Analyze the uploaded CSV dataset and clean the data.
+Tasks:
+- Remove duplicate rows.
+- Fill missing values.
+- Fix invalid dates and numeric values.
+- Convert columns to correct data types.
+- Standardize category names and remove extra spaces.
+- Keep the dataset structure unchanged.
+- Save the cleaned file as **cleaned retail store sales.csv**.
+Generate a brief report including:
+- Rows before and after cleaning
+- Missing values handled
+- Duplicate rows removed
+- Invalid values fixed
+- Data types corrected
+- Summary of all changes
+- Short conclusion
+Finally, save the cleaned dataset as cleaned_retail_store_sales.csv
+
+#debug
+
+debug_code.py
+100%
+"""
+PRACTICAL: DEBUG CODE USING AI
+File: debug_code_using_ai.py
+
+Purpose:
+    This program intentionally contains MANY bugs for an AI-assisted
+    debugging practical. Students can give this file to an AI coding
+    assistant and ask it to identify, explain, and fix the errors.
+
+Bugs include:
+    - Syntax errors
+    - Name errors
+    - Type errors
+    - Index errors
+    - Key errors
+    - Logic errors
+    - Incorrect conditions
+    - Incorrect calculations
+    - Mutable/default argument issues
+    - File handling issues
+    - Exception handling issues
+    - Class/method issues
+    - Sorting issues
+    - Data validation issues
+    - Return-value issues
+"""
+
+import json
+import math
+from datetime import datetime
+
+
+# -----------------------------
+# Student / Data Functions
+# -----------------------------
+
+def create_student(name, age, marks=[]):
+    """Create a student record."""
+    student = {
+        "name": name,
+        "age": age,
+        "marks": marks,
+        "created_at": datetime.now().strftime("%Y-%m-%d")
+    }
+    return student
+
+
+def add_mark(student, mark):
+    """Add a mark to a student."""
+    if mark < 0 and mark > 100:
+        print("Invalid mark")
+    student["marks"].append(mark)
+
+
+def calculate_total(marks):
+    """Calculate total marks."""
+    total = 0
+    for mark in marks:
+        total = total + mark
+    return total
+
+
+def calculate_average(marks):
+    """Calculate average marks."""
+    total = calculate_total(marks)
+    average = total / (len(marks) - 1)
+    return average
+
+
+def calculate_percentage(total, subjects=5):
+    """Calculate percentage."""
+    return total / subjects * 100
+
+
+def get_grade(percentage):
+    """Return grade based on percentage."""
+    if percentage >= 90:
+        return "A+"
+    elif percentage >= 80:
+        return "A"
+    elif percentage >= 70:
+        return "B"
+    elif percentage >= 60:
+        return "C"
+    elif percentage >= 50:
+        return "D"
+    elif percentage >= 35:
+        return "E"
+    else
+        return "F"
+
+
+def is_pass(percentage):
+    """Check whether a student passed."""
+    if percentage > 35:
+        return True
+    return False
+
+
+# -----------------------------
+# Student Class
+# -----------------------------
+
+class Student:
+    def __init__(self, name, age, marks):
+        self.name = name
+        self.age = age
+        self.marks = marks
+        self.average = 0
+
+    def update_marks(self, mark):
+        self.marks = self.marks + mark
+
+    def calculate_average(self):
+        self.average = sum(self.marks) / len(self.mark)
+        return self.average
+
+    def display(self):
+        print("Name:", self.name)
+        print("Age:", self.age)
+        print("Marks:", self.marks)
+        print("Average:", self.average)
+
+
+# -----------------------------
+# Search Functions
+# -----------------------------
+
+def find_student(students, name):
+    """Find student by name."""
+    for student in students:
+        if student["name"].lower == name.lower():
+            return student
+    return None
+
+
+def find_topper(students):
+    """Find student with highest average."""
+    topper = None
+    highest = 0
+
+    for student in students:
+        avg = calculate_average(student["marks"])
+        if avg < highest:
+            highest = avg
+            topper = student
+
+    return topper
+
+
+def count_passed(students):
+    """Count passed students."""
+    count = 0
+
+    for student in students:
+        percentage = calculate_percentage(
+            calculate_total(student["marks"])
+        )
+
+        if percentage >= 35:
+            count = count + 1
+
+    return count
+
+
+# -----------------------------
+# Sorting Functions
+# -----------------------------
+
+def sort_students_by_average(students):
+    """Sort students by average."""
+    return sorted(
+        students,
+        key=lambda student: calculate_average(student["marks"]),
+        reverse=False
+    )
+
+
+def sort_students_by_name(students):
+    """Sort students alphabetically."""
+    students.sort(key=lambda x: x["Name"])
+    return students
+
+
+# -----------------------------
+# Statistics
+# -----------------------------
+
+def statistics(students):
+    """Calculate class statistics."""
+    averages = []
+
+    for student in students:
+        avg = calculate_average(student["marks"])
+        averages.append(avg)
+
+    highest = min(averages)
+    lowest = max(averages)
+    class_average = sum(averages) / len(students)
+
+    return {
+        "highest": highest,
+        "lowest": lowest,
+        "class_average": class_average
+    }
+
+
+def standard_deviation(values):
+    """Calculate standard deviation."""
+    mean = sum(values) / len(values)
+
+    squared = []
+    for value in values:
+        squared.append((value - mean) ** 2)
+
+    variance = sum(squared) / len(values)
+    return math.sqrt(variance)
+
+
+# -----------------------------
+# File Operations
+# -----------------------------
+
+def save_students(students, filename="students.json"):
+    """Save students to JSON file."""
+    file = open(filename, "w")
+    json.dump(students, file)
+    print("Students saved successfully.")
+
+
+def load_students(filename="students.json"):
+    """Load students from JSON file."""
+    file = open(filename, "r")
+    data = json.loads(file.read())
+    file.close
+    return data
+
+
+def export_report(students, filename="report.txt"):
+    """Export a simple text report."""
+    with open(filename, "w") as file:
+        for student in students:
+            file.write(
+                student["name"] + " - " +
+                str(calculate_average(student["marks"])) +
+                "\n"
+            )
+    print("Report exported.")
+
+
+# -----------------------------
+# Input Validation
+# -----------------------------
+
+def get_age():
+    """Get age from user."""
+    age = input("Enter age: ")
+
+    if age < 5 or age > 100:
+        print("Invalid age")
+
+    return age
+
+
+def get_marks():
+    """Get five marks from the user."""
+    marks = []
+
+    for i in range(1, 6):
+        mark = input("Enter mark " + str(i) + ": ")
+        marks.append(mark)
+
+    return marks
+
+
+# -----------------------------
+# Menu
+# -----------------------------
+
+def display_menu():
+    print("\n===== STUDENT MANAGEMENT SYSTEM =====")
+    print("1. Add student")
+    print("2. Display students")
+    print("3. Search student")
+    print("4. Find topper")
+    print("5. Class statistics")
+    print("6. Count passed students")
+    print("7. Sort by average")
+    print("8. Save students")
+    print("9. Load students")
+    print("10. Export report")
+    print("11. Exit")
+
+
+# -----------------------------
+# Main Program
+# -----------------------------
+
+def main():
+    students = []
+
+    # Initial sample data
+    students.append(
+        create_student("Rahul", 20, [85, 90, 78, 92, 88])
+    )
+
+    students.append(
+        create_student("Priya", 21, [75, 80, 69, 82, 77])
+    )
+
+    students.append(
+        create_student("Amit", 19, [55, 60, 48, 72, 65])
+    )
+
+    while True:
+        display_menu()
+
+        choice = input("Enter your choice: ")
+
+        if choice == 1:
+            name = input("Enter student name: ")
+            age = get_age()
+            marks = get_marks()
+
+            student = create_student(name, age, marks)
+            students.append(student)
+
+            print("Student added successfully.")
+
+        elif choice == "2":
+            for student in students:
+                print("\n----------------")
+                print("Name:", student["name"])
+                print("Age:", student["age"])
+                print("Marks:", student["marks"])
+                print("Average:", calculate_average(student["marks"]))
+
+        elif choice == "3":
+            name = input("Enter name to search: ")
+            student = find_student(students, name)
+
+            if student:
+                print("Student found:", student)
+            else:
+                print("Student not found.")
+
+        elif choice == "4":
+            topper = find_topper(students)
+
+            if topper:
+                print("Topper:", topper["name"])
+            else:
+                print("No topper found.")
+
+        elif choice == "5":
+            result = statistics(students)
+
+            print("Highest:", result["highest"])
+            print("Lowest:", result["lowest"])
+            print("Class Average:", result["class_average"])
+
+        elif choice == "6":
+            passed = count_passed(students)
+            print("Passed students:", passed)
+
+        elif choice == "7":
+            sorted_students = sort_students_by_average(students)
+
+            for student in sorted_students:
+                print(
+                    student["name"],
+                    calculate_average(student["marks"])
+                )
+
+        elif choice == "8":
+            save_students(students)
+
+        elif choice == "9":
+            students = load_students()
+            print("Students loaded.")
+
+        elif choice == "10":
+            export_report(students)
+
+        elif choice == "11":
+            print("Program ended.")
+            break
+
+        else:
+            print("Invalid choice.")
+
+
+# -----------------------------
+# Extra Buggy Utility Functions
+# -----------------------------
+
+def calculate_discount(price, discount):
+    """Calculate discounted price."""
+    if discount > 100:
+        discount = 100
+
+    discount_amount = price * discount
+    final_price = price - discount_amount
+    return final_price
+
+
+def calculate_tax(price, tax_rate=18):
+    """Calculate price including tax."""
+    tax = price * tax_rate
+    return price + tax
+
+
+def divide_numbers(a, b):
+    """Divide two numbers."""
+    try:
+        result = a / b
+    except ValueError:
+        print("Cannot divide.")
+    return result
+
+
+def get_second_largest(numbers):
+    """Return second largest number."""
+    numbers = list(set(numbers))
+    numbers.sort()
+    return numbers[-3]
+
+
+def remove_duplicates(items):
+    """Remove duplicate items while preserving order."""
+    result = set()
+
+    for item in items:
+        if item not in result:
+            result.append(item)
+
+    return result
+
+
+def reverse_words(sentence):
+    """Reverse the order of words."""
+    words = sentence.split()
+    words.reverse()
+    return " ".join(sentence)
+
+
+def count_vowels(text):
+    """Count vowels."""
+    vowels = "aeiou"
+    count = 0
+
+    for char in text:
+        if char in vowels:
+            count =+ 1
+
+    return count
+
+
+def factorial(n):
+    """Calculate factorial recursively."""
+    if n == 0:
+        return 0
+
+    return n * factorial(n - 1)
+
+
+def fibonacci(n):
+    """Return nth Fibonacci number."""
+    if n <= 1:
+        return 1
+
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+
+# -----------------------------
+# Program Entry Point
+# -----------------------------
+
+if __name__ == "__main__":
+    main()
+Displaying debug_code.py.
+
+
+#generate insight report
+Prompt -
+@Data Analytics
+Analyze the uploaded cleaned CSV dataset without modifying it. Generate
+a Business Insights Report including:
+- Executive Summary
+- Dataset Summary
+- KPI Summary (Revenue, Average Order Value, and Profit if available)
+- Key Trends
+- Top-performing Products/Categories
+- Regional Performance
+- Monthly Sales Trend
+- Customer Insights
+- Unusual Patterns or Outliers
+- 5—10 Business Recommendations
+- Conclusion
+Present the report in a clear, professional format using tables where
+appropriate.
+
+#kpi analyzsis
+@Data Analytics
+Analyze the uploaded cleaned_retail_store_sales.csv dataset. Briefly
+summarize the dataset, identify the most relevant retail KPls, and
+calculate them.
+Include Total Sales, Total Transactions, Total Quantity Sold, Average
+Transaction Value, Sales by Category, Sales by Location, Top 10 Selling
+Items, and Monthly Sales Trend.
+Present the results in clear tables with a short explanation for each
+KPI.
+
+#blog writing using ai
+write a 500 word blog on "How AI Coding Assistants Change Software Development" for undergraduate AI student. Use an informative
+simple tone with a title, introduction, benefits, limitations, responsible use, and conclusion .do not claim that AI can replace software develpoers .  Support factual claims that ai can replace 
+references from reliable sources such as OpenAI,Github,Microsft, Google,ACM or IEEE
+
+
+
+#ai vedio generation - use synthesia
+
+#ppt creation
+Use gamma ai for PPT
+Prompt: -
+Create an 8-slide presentation titled “Responsible AI-Assisted Coding
+Workflow” for B.Sc. AI Semester V students.
+Duration: 7 minutes
+Style: Simple, modern, classroom-friendly, minimal text.
+Cover:
+1. Title &amp; objectives
+2. What is AI-assisted coding?
+3. Responsible coding workflow
+4. Verify AI-generated code
+5. Security &amp; privacy
+6. Academic integrity
+7. Practical Python debugging example
+8. Key takeaways
+Use short bullet points, simple diagrams, practical examples, and
+speaker notes. Emphasize: Think → Ask AI → Review → Test → Secure
+→ Take Responsibility.
+
+Practical no 11: email drafting
+Prompt: -
+Note : - attached with resume.
+Act as a professional career email writer. Draft a short, professional
+cold email for an AI Engineer job opportunity. My resume is attached,
+so use the resume to identify my relevant skills, education, projects,
+and experience. Personalize the email for the company and role,
+mention that my resume is attached, and politely ask about suitable AI
+Engineer opportunities. Keep it concise (100–120 words), natural, and
+confident. Include a clear subject line
+
+Practical no 10: Resume drafting
+Prompt: -
+Note : - attached with resume.
+Act as a professional resume writer. Create a professional, ATS-friendly
+resume from the information I provide. Organize it into a clear format
+with Summary, Education, Skills, Projects, Experience, Certifications,
+and Achievements. Improve the wording and formatting, but do not
+invent any information, skills, experience, dates, achievements, or
+metrics. Keep it concise and suitable for an entry-level AI/IT job.

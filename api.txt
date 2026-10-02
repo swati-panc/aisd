@@ -1,0 +1,322 @@
+
+Step 1: Install Required Libraries
+!pip install fastapi uvicorn nest-asyncio requests -q
+
+#fastapi → Used to create the REST API.
+#uvicorn → Runs the FastAPI application.
+#nest-asyncio → Allows asynchronous server execution inside Google Colab.
+#requests → Used to send requests to our API for testing.
+
+Step 2: Import Libraries
+from fastapi import FastAPI
+from pydantic import BaseModel
+import nest_asyncio
+import uvicorn
+import threading
+
+#FastAPI is used to create the API application.
+#BaseModel is used to define and validate the data received by the API.
+#nest_asyncio helps run the server inside the Colab environment.
+#uvicorn is the web server that executes the FastAPI application.
+#threading allows the API server to run in the background while we continue using the notebook.
+
+Step 3: Create the FastAPI Application
+app = FastAPI(
+    title="AI System Design API",
+    description="A simple AI-based REST API",
+    version="1.0"
+)
+
+
+#Here, we create a FastAPI object called app.
+#The API contains:
+#Title: AI System Design API
+#Description: Describes the purpose of the API.
+#Version: Version number of the API.
+#FastAPI automatically provides API documentation through Swagger UI.
+
+Step 4: Define the Input Data
+class UserRequest(BaseModel):
+    message: str
+
+#This defines the format of the data that the API expects.
+#The user must send a JSON object containing a message.
+#message: str means that the message must be a string.
+
+Step 5: Create a Home Endpoint
+@app.get("/")
+def home():
+    return {
+        "status": "success",
+        "message": "AI API is running"
+    }
+
+
+#@app.get("/") creates a GET API endpoint.
+#When a user visits the root URL, the API returns:
+{
+    "status": "success",
+    "message": "AI API is running"
+}
+This endpoint is useful for checking whether the API server is working.
+
+Step 6: Create the AI Prediction Endpoint
+@app.post("/predict")
+def predict(request: UserRequest):
+
+    message = request.message.lower()
+
+    if "hello" in message or "hi" in message:
+        response = "Hello! How can I help you?"
+
+    elif "ai" in message or "artificial intelligence" in message:
+        response = (
+            "Artificial Intelligence is a technology that enables "
+            "machines to perform tasks that normally require human intelligence."
+        )
+
+    elif "machine learning" in message:
+        response = (
+            "Machine Learning is a branch of AI that allows systems "
+            "to learn patterns from data."
+        )
+
+    else:
+        response = "I received your message: " + request.message
+
+    return {
+        "input": request.message,
+        "response": response
+    }
+
+
+#This is the main API endpoint.
+@app.post("/predict") means that the endpoint accepts a POST request.
+The user sends a message such as:
+{
+    "message": "What is AI?"
+}
+The API converts the message to lowercase:
+message = request.message.lower()
+This makes it easier to compare the input.
+The if-elif-else statements simulate a simple AI decision system.
+
+Step 7: Run the API Server
+nest_asyncio.apply()
+
+def run_api():
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000
+    )
+
+server_thread = threading.Thread(target=run_api)
+server_thread.start()
+
+
+#nest_asyncio.apply() allows the asynchronous server to work properly inside Google Colab.
+
+
+Step 8: Test the API
+
+We can use Python's requests library to send a POST request.
+
+import requests
+
+url = "http://127.0.0.1:8000/predict"
+
+data = {
+    "message": "What is AI?"
+}
+
+response = requests.post(url, json=data)
+
+print(response.status_code)
+print(response.json())
+Expected Output
+200
+
+{
+    'input': 'What is AI?',
+    'response': 'Artificial Intelligence is a technology that enables machines to perform tasks that normally require human intelligence.'
+}
+Explanation
+requests.post()
+
+sends a POST request to our API.
+
+The json=data parameter sends the input as JSON.
+
+response.status_code
+
+returns the HTTP status code.
+
+200 means the request was successful.
+
+response.json()
+
+converts the JSON response into a Python dictionary.
+
+Step 9: Test Different Inputs
+Test 1 — Greeting
+data = {
+    "message": "Hello"
+}
+
+response = requests.post(
+    "http://127.0.0.1:8000/predict",
+    json=data
+)
+
+print(response.json())
+
+Output:
+
+{
+    'input': 'Hello',
+    'response': 'Hello! How can I help you?'
+}
+Test 2 — Machine Learning
+data = {
+    "message": "What is machine learning?"
+}
+
+response = requests.post(
+    "http://127.0.0.1:8000/predict",
+    json=data
+)
+
+print(response.json())
+
+Output:
+
+{
+    'input': 'What is machine learning?',
+    'response': 'Machine Learning is a branch of AI that allows systems to learn patterns from data.'
+}
+Step 10: View API Documentation
+
+FastAPI automatically creates interactive documentation.
+
+The Swagger documentation is normally available at:
+
+http://127.0.0.1:8000/docs
+
+The documentation allows you to:
+
+View API endpoints
+See request formats
+Enter input values
+Execute API requests
+View JSON responses
+
+
+Important Viva Questions
+
+1. What is an API?
+An API (Application Programming Interface) is a mechanism that allows two software systems to communicate with each other.
+
+2. What is REST API?
+A REST API is an API that follows REST principles and commonly uses HTTP methods such as GET, POST, PUT, and DELETE.
+
+3. Why is FastAPI used?
+FastAPI is a modern Python framework for building high-performance APIs. It also provides automatic interactive API documentation.
+
+4. What is JSON?
+JSON (JavaScript Object Notation) is a lightweight data format commonly used for communication between clients and APIs.
+
+5. What is the purpose of POST?
+POST is generally used to send data to a server for processing or creation of a resource.
+
+6. What is the role of Pydantic?
+Pydantic provides data validation and defines the structure of incoming API data.
+
+7. How is this related to AI System Design?
+In a real AI system, the /predict endpoint can receive data from an application, pass it to an ML/LLM model, and return the model's prediction or generated response. Thus, the API acts as the interface between the AI model and client applications.
+
+# Install libraries
+!pip install fastapi uvicorn nest-asyncio requests -q
+
+# Import libraries
+from fastapi import FastAPI
+from pydantic import BaseModel
+import nest_asyncio
+import uvicorn
+import threading
+import requests
+
+# Create FastAPI application
+app = FastAPI(
+    title="AI System Design API",
+    description="Simple AI-based REST API",
+    version="1.0"
+)
+
+# Define input structure
+class UserRequest(BaseModel):
+    message: str
+
+# Home endpoint
+@app.get("/")
+def home():
+    return {
+        "status": "success",
+        "message": "AI API is running"
+    }
+
+# AI prediction endpoint
+@app.post("/predict")
+def predict(request: UserRequest):
+
+    message = request.message.lower()
+
+    if "hello" in message or "hi" in message:
+        response = "Hello! How can I help you?"
+
+    elif "ai" in message or "artificial intelligence" in message:
+        response = (
+            "Artificial Intelligence is a technology that enables "
+            "machines to perform tasks that normally require human intelligence."
+        )
+
+    elif "machine learning" in message:
+        response = (
+            "Machine Learning is a branch of AI that allows systems "
+            "to learn patterns from data."
+        )
+
+    else:
+        response = "I received your message: " + request.message
+
+    return {
+        "input": request.message,
+        "response": response
+    }
+
+# Start server
+nest_asyncio.apply()
+
+def run_api():
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000
+    )
+
+server_thread = threading.Thread(target=run_api)
+server_thread.start()
+
+
+# Test API
+
+url = "http://127.0.0.1:8000/predict"
+
+data = {
+    "message": "What is artificial intelligence?"
+}
+
+response = requests.post(url, json=data)
+
+print("Status Code:", response.status_code)
+print("API Response:", response.json())
